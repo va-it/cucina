@@ -1,0 +1,15 @@
+{
+  "name": "cucina",
+  "version": "1.0.0",
+  "description": "A simple web application for a recipe book",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vincenzo Abete <vincenzo@abete.co.uk>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
