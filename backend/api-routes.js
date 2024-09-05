@@ -1,15 +1,31 @@
 let express = require('express');
 let router = express.Router();
+let constants = require('./constants');
 
-router.get('', function(request, response) {
+router.use((request, response, next) => {
+    response.setHeader('Access-Control-Allow-Origin', `http://${constants.localHost}:${constants.frontendPort}`);
+    next();
+})
+
+router.get('', function (request, response) {
     response.send('API');
 });
 
-router.get('/user', function(request, response) {
+router.get('/recipes', function (request, response) {
     response.send({
-        "id": 2,
-        "name": "John",
-    })
+        "ok": true,
+        "message": 'Recipes retrieved',
+        "body": [
+            {
+                "id": 1,
+                "name": "Tiramisu",
+            },
+            {
+                "id": 2,
+                "name": "Pizza",
+            },
+        ]
+    });
 });
 
 module.exports = router;

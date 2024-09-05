@@ -6,7 +6,7 @@ export class Recipe {
     return this._id;
   }
 
-  public set id(value: number) {
+  public set id(value: number | undefined) {
     this._id = value;
   }
 
@@ -14,12 +14,12 @@ export class Recipe {
     return this._name;
   }
 
-  public set name(value: string) {
+  public set name(value: string | undefined) {
     this._name = value;
   }
 
-  constructor(id: number, name: string) {
-    this.id = id;
-    this.name = name;
+  constructor(id: number | undefined, name: string | undefined) {
+    this.id = id !== null ? id : undefined;
+    this.name = name !== null ? name : undefined;
   }
 }

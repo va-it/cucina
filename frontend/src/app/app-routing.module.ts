@@ -7,7 +7,7 @@ const routes: Routes = [
     path: 'recipes',
     component: RecipesComponent
   },
-  { path: '**', redirectTo: '/' }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

@@ -1,24 +1,28 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from 'services/api/api.service';
-import { Recipe } from 'models/recipe';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiResponse } from 'models/api-response';
+import { apiUrl } from '../../config';
+import { Recipe } from 'models/recipe';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RecipesService extends ApiService<Recipe>{
+export class RecipesService {
 
-  constructor(httpClient: HttpClient) {
-    super(httpClient);
+  get httpClient(): HttpClient {
+    return this._httpClient;
   }
 
-  public getRecipe(id: number): Observable<ApiResponse<Recipe>> {
-    return this.getOne('recipes', id);
+  constructor(
+    private _httpClient: HttpClient
+  ) {
   }
 
-  public getAllRecipes(): Observable<ApiResponse<Recipe[]>> {
-    return this.getAll('recipes');
+  public getRecipe(id: number): Observable<HttpResponse<Recipe>> {
+    return this.httpClient.get<HttpResponse<Recipe>>(`${apiUrl}/recipes/${id}`);
+  }
+
+  public getAllRecipes(): Observable<HttpResponse<Recipe[]>> {
+    return this.httpClient.get<HttpResponse<Recipe[]>>(`${apiUrl}/recipes`);
   }
 }
