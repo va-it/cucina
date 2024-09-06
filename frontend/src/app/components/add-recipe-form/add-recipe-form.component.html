@@ -1,0 +1,24 @@
+<ng-container *ngIf="recipeFormGroup">
+  <form [formGroup]="recipeFormGroup">
+    <div class="mb-3">
+      <div class="row justify-content-between">
+        <div class="col">
+          <label for="name" class="form-label">Name *</label>
+        </div>
+        <div class="col-auto">
+          <div *ngIf="name?.touched && name?.errors?.['required']" class="text-danger">Name is required.</div>
+        </div>
+      </div>
+      <input type="text" class="form-control" id="name" formControlName="name"
+             [ngClass]="{'border-danger' : name?.touched && name?.errors?.['required']}">
+    </div>
+    <div class="mb-3">
+      <label for="time" class="form-label">Time</label>
+      <input type="text" class="form-control" id="time">
+    </div>
+    <div class="mb-3">
+      <label for="instructions" class="form-label">Instructions</label>
+      <textarea cols="5" class="form-control" id="instructions"></textarea>
+    </div>
+  </form>
+</ng-container>

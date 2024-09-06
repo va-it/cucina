@@ -19,12 +19,10 @@ router.get('/recipes', function (request, response) {
             {
                 "id": 1,
                 "name": "Tiramisu",
-                "description": "A dessert made with coffee and mascarpone"
             },
             {
                 "id": 2,
                 "name": "Pizza",
-                "description": "A flat dough topped with tomato, mozzarella and other ingredients"
             },
         ]
     });

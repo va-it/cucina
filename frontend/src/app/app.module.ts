@@ -7,17 +7,21 @@ import { NavigationComponent } from 'components/navigation/navigation.component'
 import { RecipesService } from 'services/recipes/recipes.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RecipesComponent } from 'components/recipes/recipes.component';
+import { AddRecipeFormComponent } from 'components/add-recipe-form/add-recipe-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     RecipesComponent,
+    AddRecipeFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     RecipesService

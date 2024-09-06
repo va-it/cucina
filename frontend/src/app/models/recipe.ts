@@ -1,10 +1,7 @@
 export class Recipe {
   private _id: number | undefined;
   private _name: string | undefined;
-  private _description: string | undefined;
-  private _difficulty: number | undefined;
-  private _cooking_time: string | undefined;
-  private _preparation_time: string | undefined;
+  private _time: string | undefined;
   private _instructions: string | undefined;
 
   constructor(source: Partial<Recipe>) {
@@ -27,36 +24,12 @@ export class Recipe {
     this._name = value;
   }
 
-  public get description(): string | undefined {
-    return this._description;
+  public get time(): string | undefined {
+    return this._time;
   }
 
-  public set description(value: string | undefined) {
-    this._description = value;
-  }
-
-  public get difficulty(): number | undefined {
-    return this._difficulty;
-  }
-
-  public set difficulty(value: number | undefined) {
-    this._difficulty = value;
-  }
-
-  public get cooking_time(): string | undefined {
-    return this._cooking_time;
-  }
-
-  public set cooking_time(value: string | undefined) {
-    this._cooking_time = value;
-  }
-
-  public get preparation_time(): string | undefined {
-    return this._preparation_time;
-  }
-
-  public set preparation_time(value: string | undefined) {
-    this._preparation_time = value;
+  public set time(value: string | undefined) {
+    this._time = value;
   }
 
   public get instructions(): string | undefined {
