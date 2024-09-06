@@ -25,7 +25,7 @@ export class RecipesComponent implements OnInit {
       next: (response: HttpResponse<Recipe[]>) => {
         if (response.ok) {
           response.body?.map((recipe: Recipe) => {
-            this.recipes.push(new Recipe(recipe.id, recipe.name))
+            this.recipes.push(new Recipe(recipe));
           });
         }
       }, error: (response: HttpErrorResponse) => {
