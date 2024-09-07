@@ -19,21 +19,25 @@ router.get('/recipes', function (request, response) {
     response.send({
         "ok": true,
         "message": 'Recipes retrieved',
-        "body": [
-            {
-                "id": 1,
-                "name": "Tiramisu",
-            },
-            {
-                "id": 2,
-                "name": "Pizza",
-            },
-        ]
+        "body": recipes
     });
 });
 
 router.post('/recipes', function (request, response) {
-    console.log(request.body);
+    if (request.body) {
+        let recipe = {
+            "id": recipes.length + 1,
+            "name": request.body['name'],
+            "instructions": request.body['instructions'],
+            "ingredients": request.body['ingredients']
+        }
+        recipes.push(recipe);
+        response.send({
+            "ok": true,
+            "message": "Recipe created",
+            "body": recipe
+        });
+    }
 });
 
 module.exports = router;

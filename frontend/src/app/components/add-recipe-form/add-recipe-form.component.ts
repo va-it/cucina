@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
 import { Ingredient } from 'models/ingredient';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-recipe-form',
@@ -49,8 +49,10 @@ export class AddRecipeFormComponent implements OnInit {
   public save(): void {
     this.getValuesFromControls();
     this.recipesService.saveRecipe(this.recipeToSave).subscribe({
-      next: (response: Object) => {
-        console.log(response);
+      next: (response: HttpResponse<Recipe>) => {
+        if (response.ok) {
+          this.saved.emit();
+        }
       }, error: (response: HttpErrorResponse) => {
         console.error(response);
       }
@@ -88,6 +90,6 @@ export class AddRecipeFormComponent implements OnInit {
         instructions: this.instructions?.value,
         ingredients: ingredients
       }
-    )
+    );
   }
 }

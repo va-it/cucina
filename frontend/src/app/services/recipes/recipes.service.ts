@@ -26,8 +26,8 @@ export class RecipesService {
     return this.httpClient.get<HttpResponse<Recipe[]>>(`${apiUrl}/recipes`);
   }
 
-  public saveRecipe(recipe: Recipe): Observable<Object> {
+  public saveRecipe(recipe: Recipe): Observable<HttpResponse<Recipe>> {
     const requestHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.httpClient.post(`${apiUrl}/recipes`, JSON.stringify(recipe), { headers: requestHeaders });
+    return this.httpClient.post<HttpResponse<Recipe>>(`${apiUrl}/recipes`, JSON.stringify(recipe), { headers: requestHeaders });
   }
 }
