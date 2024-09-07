@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-recipe-form',
@@ -14,6 +14,10 @@ export class AddRecipeFormComponent implements OnInit {
     return this.recipeFormGroup?.get('name');
   }
 
+  get ingredients(): FormArray {
+    return this.recipeFormGroup?.get('ingredients') as FormArray;
+  }
+
   constructor(private formBuilder: FormBuilder) {
   }
 
@@ -21,11 +25,28 @@ export class AddRecipeFormComponent implements OnInit {
     this.initialiseFormGroup();
   }
 
+  public addIngredient(): void {
+    this.ingredients.push(this.addIngredientControls());
+  }
+
+  public removeIngredient(index: number): void {
+    this.ingredients.controls.splice(index, 1);
+  }
+
   private initialiseFormGroup(): void {
     this.recipeFormGroup = this.formBuilder.group({
       name: [ null, Validators.required ],
-      time: [ null ],
-      instructions: [ null, Validators.required ]
+      ingredients: this.formBuilder.array([
+        this.addIngredientControls()
+      ]),
+      instructions: [ null ]
     });
+  }
+
+  private addIngredientControls(): FormGroup {
+    return this.formBuilder.group({
+      ingredientName: [ null ],
+      ingredientQuantity: [ null ]
+    })
   }
 }

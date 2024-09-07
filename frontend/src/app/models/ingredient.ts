@@ -1,9 +1,9 @@
-export class Recipe {
+export class Ingredient {
   private _id: number | undefined;
   private _name: string | undefined;
-  private _instructions: string | undefined;
+  private _quantity: string | undefined;
 
-  constructor(source: Partial<Recipe>) {
+  constructor(source: Partial<Ingredient>) {
     Object.assign(this, source);
   }
 
@@ -23,11 +23,11 @@ export class Recipe {
     this._name = value;
   }
 
-  public get instructions(): string | undefined {
-    return this._instructions;
+  public get quantity(): string | undefined {
+    return this._quantity;
   }
 
-  public set instructions(value: string | undefined) {
-    this._instructions = value;
+  public set quantity(value: string | undefined) {
+    this._quantity = value;
   }
 }

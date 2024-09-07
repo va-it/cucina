@@ -12,7 +12,7 @@
       </div>
     </div>
     <hr>
-    <div class="max-height-20 overflow-y-scroll">
+    <div class="max-height-20 overflow-y-auto">
       <ng-container *ngIf="loading; else recipesTemplate">
         <p>Loading...</p>
       </ng-container>
@@ -21,6 +21,7 @@
           <div class="card my-3">
             <div class="card-body">
               <h5 class="card-title">{{ recipe.name }}</h5>
+              <span class="fst-italic text-truncate">{{ recipe.instructions }}</span>
             </div>
           </div>
         </ng-container>
@@ -33,7 +34,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title">Add recipe</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
