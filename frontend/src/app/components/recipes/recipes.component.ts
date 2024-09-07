@@ -54,7 +54,7 @@ export class RecipesComponent implements OnInit, AfterViewInit {
           });
         }
       }, error: (response: HttpErrorResponse) => {
-        console.error(response.error);
+        console.error(response);
         this.loading = false;
       }, complete: () => {
         this.loading = false;

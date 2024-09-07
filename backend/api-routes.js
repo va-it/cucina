@@ -8,6 +8,7 @@ router.use(express.json());
 router.use((request, response, next) => {
     response.setHeader('Access-Control-Allow-Origin', `http://${constants.localHost}:${constants.frontendPort}`);
     response.setHeader('Access-Control-Allow-Headers', `content-type`);
+    response.setHeader('Access-Control-Allow-Methods', `GET,POST,PUT,DELETE`);
     next();
 });
 
@@ -38,6 +39,15 @@ router.post('/recipes', function (request, response) {
             "body": recipe
         });
     }
+});
+
+router.delete('/recipes', function (request, response) {
+    recipes = [];
+    response.send({
+        "ok": true,
+        "message": "Recipes deleted",
+        "body": null
+    });
 });
 
 module.exports = router;

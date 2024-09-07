@@ -9,13 +9,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { RecipesComponent } from 'components/recipes/recipes.component';
 import { AddRecipeFormComponent } from 'components/add-recipe-form/add-recipe-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SettingsComponent } from 'components/settings/settings.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     RecipesComponent,
-    AddRecipeFormComponent
+    AddRecipeFormComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,

@@ -5,7 +5,6 @@
         <h1 class="card-title">Recipes</h1>
       </div>
       <div class="col-auto">
-
         <button class="btn btn-warning" (click)="openModal()">
           <i class="bi-plus me-2"></i> Add
         </button>
@@ -18,10 +17,10 @@
       </ng-container>
       <ng-template #recipesTemplate>
         <ng-container *ngFor="let recipe of recipes">
-          <div class="card my-3">
-            <div class="card-body">
+          <div class="card hover my-3">
+            <div class="card-body text-truncate">
               <h5 class="card-title">{{ recipe.name }}</h5>
-              <span class="fst-italic text-truncate">{{ recipe.instructions }}</span>
+              <span class="fst-italic">{{ recipe.instructions }}</span>
             </div>
           </div>
         </ng-container>

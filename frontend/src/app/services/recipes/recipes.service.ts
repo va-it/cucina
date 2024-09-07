@@ -26,6 +26,10 @@ export class RecipesService {
     return this.httpClient.get<HttpResponse<Recipe[]>>(`${apiUrl}/recipes`);
   }
 
+  public deleteAllRecipes(): Observable<HttpResponse<void>> {
+    return this.httpClient.delete<HttpResponse<void>>(`${apiUrl}/recipes`);
+  }
+
   public saveRecipe(recipe: Recipe): Observable<HttpResponse<Recipe>> {
     const requestHeaders = new HttpHeaders().set('Content-Type', 'application/json');
     return this.httpClient.post<HttpResponse<Recipe>>(`${apiUrl}/recipes`, JSON.stringify(recipe), { headers: requestHeaders });
