@@ -26,6 +26,10 @@ export class RecipesService {
     return this.httpClient.get<HttpResponse<Recipe[]>>(`${apiUrl}/recipes`);
   }
 
+  public deleteRecipe(id: number): Observable<HttpResponse<void>> {
+    return this.httpClient.delete<HttpResponse<void>>(`${apiUrl}/recipes/${id}`);
+  }
+
   public deleteAllRecipes(): Observable<HttpResponse<void>> {
     return this.httpClient.delete<HttpResponse<void>>(`${apiUrl}/recipes`);
   }

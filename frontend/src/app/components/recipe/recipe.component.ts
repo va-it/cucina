@@ -1,25 +1,29 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RecipesService } from 'services/recipes/recipes.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Recipe } from 'models/recipe';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrl: './recipe.component.scss'
 })
-export class RecipeComponent implements OnInit, OnDestroy {
+export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public id!: number;
   public loading: boolean = true;
   public recipe!: Recipe;
   private activatedRouteSubscription!: Subscription;
+  private modal: Modal | undefined;
+  @ViewChild('editRecipeModal') editRecipeModal: ElementRef | undefined;
 
   constructor(
     private recipesService: RecipesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {
   }
 
@@ -38,15 +42,42 @@ export class RecipeComponent implements OnInit, OnDestroy {
     }
   }
 
-  public edit(): void {
+  public ngAfterViewInit(): void {
+    this.modal = new Modal(this.editRecipeModal?.nativeElement, {backdrop: true});
+  }
 
+  public edit(): void {
+    this.openModal();
   }
 
   public delete(): void {
-
+    this.recipesService.deleteRecipe(this.id).subscribe({
+      next: (response: HttpResponse<void>) => {
+        if (response.ok) {
+          this.router.navigate([ `recipes` ]).then(() => {
+          }, (reason) => {
+            console.error(reason)
+          });
+        }
+      }, error: (response: HttpErrorResponse) => {
+        console.error(response);
+      }
+    });
   }
 
-  private getRecipe(): void {
+  public openModal(): void {
+    if (this.modal) {
+      this.modal.show();
+    }
+  }
+
+  public closeModal(): void {
+    if (this.modal) {
+      this.modal.hide();
+    }
+  }
+
+  public getRecipe(): void {
     this.loading = true;
     this.recipesService.getRecipe(this.id).subscribe({
       next: (response: HttpResponse<Recipe>) => {

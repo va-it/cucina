@@ -7,7 +7,7 @@ import { NavigationComponent } from 'components/navigation/navigation.component'
 import { RecipesService } from 'services/recipes/recipes.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RecipesComponent } from 'components/recipes/recipes.component';
-import { AddRecipeFormComponent } from 'components/add-recipe-form/add-recipe-form.component';
+import { RecipeFormComponent } from 'components/recipe-form/recipe-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from 'components/settings/settings.component';
 import { RecipeComponent } from 'components/recipe/recipe.component';
@@ -18,7 +18,7 @@ import { RecipeComponent } from 'components/recipe/recipe.component';
     NavigationComponent,
     RecipesComponent,
     RecipeComponent,
-    AddRecipeFormComponent,
+    RecipeFormComponent,
     SettingsComponent,
   ],
   imports: [

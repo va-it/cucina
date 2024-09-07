@@ -25,17 +25,13 @@ router.get('/recipes', function (request, response) {
 });
 
 router.get('/recipes/:id', function (request, response) {
-    let id = request.params.id;
-    if (id) {
-        let recipe = recipes.find(recipe => recipe.id === id);
-        if (recipe) {
-            response.send({
-                "ok": true,
-                "message": 'Recipe retrieved',
-                "body": recipe
-            });
-        }
-    }
+    let recipe = recipes.find(recipe => recipe.id === +request.params.id);
+    response.send({
+        "ok": true,
+        "message": 'Recipe retrieved',
+        "body": recipe
+    });
+
 });
 
 router.post('/recipes', function (request, response) {
@@ -43,6 +39,7 @@ router.post('/recipes', function (request, response) {
         let recipe = {
             "id": recipes.length + 1,
             "name": request.body['name'],
+            "servings": request.body['servings'],
             "instructions": request.body['instructions'],
             "ingredients": request.body['ingredients']
         }

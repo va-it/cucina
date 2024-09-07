@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
@@ -6,14 +6,14 @@ import { Ingredient } from 'models/ingredient';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-add-recipe-form',
-  templateUrl: './add-recipe-form.component.html',
-  styleUrl: './add-recipe-form.component.scss'
+  selector: 'app-recipe-form',
+  templateUrl: './recipe-form.component.html',
+  styleUrl: './recipe-form.component.scss'
 })
-export class AddRecipeFormComponent implements OnInit {
+export class RecipeFormComponent implements OnInit {
 
   public recipeFormGroup: FormGroup | undefined;
-  private recipeToSave!: Recipe;
+  @Input() recipe!: Recipe;
   @Output() saved: EventEmitter<void> = new EventEmitter<void>();
 
   get name(): AbstractControl | null | undefined {
@@ -48,7 +48,7 @@ export class AddRecipeFormComponent implements OnInit {
 
   public save(): void {
     this.getValuesFromControls();
-    this.recipesService.saveRecipe(this.recipeToSave).subscribe({
+    this.recipesService.saveRecipe(this.recipe).subscribe({
       next: (response: HttpResponse<Recipe>) => {
         if (response.ok) {
           this.initialiseFormGroup();
@@ -62,30 +62,41 @@ export class AddRecipeFormComponent implements OnInit {
 
   private initialiseFormGroup(): void {
     this.recipeFormGroup = this.formBuilder.group({
-      name: [ null, Validators.required ],
-      ingredients: this.formBuilder.array([
-        this.addIngredientControls()
-      ]),
-      instructions: [ null ]
+      name: [ this.recipe ? this.recipe.name : null, Validators.required ],
+      ingredients: this.formBuilder.array([]),
+      instructions: [ this.recipe ? this.recipe.instructions : null ]
     });
+    this.initialiseIngredients();
   }
 
-  private addIngredientControls(): FormGroup {
+  private initialiseIngredients(): void {
+    if (this.recipe && this.recipe.ingredients?.length) {
+      this.recipe.ingredients?.forEach(ingredient => {
+        this.ingredients.push(this.addIngredientControls(ingredient));
+      });
+    } else {
+      this.ingredients.push(this.addIngredientControls());
+    }
+  }
+
+  private addIngredientControls(ingredient?: Ingredient): FormGroup {
     return this.formBuilder.group({
-      ingredientName: [ null ],
-      ingredientQuantity: [ null ]
+      ingredientName: [ ingredient ? ingredient.name : null ],
+      ingredientQuantity: [ ingredient ? ingredient.quantity : null ]
     })
   }
 
   private getValuesFromControls(): void {
     let ingredients: Ingredient[] = [];
     this.ingredients.controls.forEach(group => {
-      let ingredient = new Ingredient({});
-      ingredient.name = group.get('ingredientName')?.value;
-      ingredient.quantity = group.get('ingredientQuantity')?.value;
-      ingredients.push(ingredient);
+      if (group.get('ingredientName')?.value || group.get('ingredientQuantity')?.value) {
+        let ingredient = new Ingredient({});
+        ingredient.name = group.get('ingredientName')?.value;
+        ingredient.quantity = group.get('ingredientQuantity')?.value;
+        ingredients.push(ingredient);
+      }
     });
-    this.recipeToSave = new Recipe(
+    this.recipe = new Recipe(
       {
         name: this.name?.value,
         instructions: this.instructions?.value,

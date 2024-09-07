@@ -21,6 +21,41 @@
         </div>
       </div>
       <hr>
+      <h5>Ingredients</h5>
+      <ng-container *ngIf="recipe.ingredients?.length; else notAvailableTemplate">
+        <ul class="list-group list-group-flush">
+          <ng-container *ngFor="let ingredient of recipe.ingredients">
+            <li class="list-group-item px-0">
+              {{ ingredient.name }}<span class="fst-italic d-inline-block ms-2">{{ ingredient.quantity }}</span>
+            </li>
+          </ng-container>
+        </ul>
+        <hr>
+      </ng-container>
+      <h5>Instructions</h5>
+      <ng-container *ngIf="recipe.instructions; else notAvailableTemplate">
+        {{ recipe.instructions }}
+      </ng-container>
     </div>
   </div>
 </ng-template>
+
+<ng-template #notAvailableTemplate>
+  N/A
+</ng-template>
+
+<div class="modal fade" tabindex="-1" #editRecipeModal>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit recipe</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngIf="recipe">
+          <app-recipe-form [recipe]="recipe" (saved)="getRecipe()"></app-recipe-form>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
