@@ -10,14 +10,16 @@ import { RecipesComponent } from 'components/recipes/recipes.component';
 import { AddRecipeFormComponent } from 'components/add-recipe-form/add-recipe-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from 'components/settings/settings.component';
+import { RecipeComponent } from 'components/recipe/recipe.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     RecipesComponent,
+    RecipeComponent,
     AddRecipeFormComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,7 @@ import { SettingsComponent } from 'components/settings/settings.component';
   providers: [
     RecipesService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+}

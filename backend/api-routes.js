@@ -24,6 +24,20 @@ router.get('/recipes', function (request, response) {
     });
 });
 
+router.get('/recipes/:id', function (request, response) {
+    let id = request.params.id;
+    if (id) {
+        let recipe = recipes.find(recipe => recipe.id === id);
+        if (recipe) {
+            response.send({
+                "ok": true,
+                "message": 'Recipe retrieved',
+                "body": recipe
+            });
+        }
+    }
+});
+
 router.post('/recipes', function (request, response) {
     if (request.body) {
         let recipe = {

@@ -17,7 +17,7 @@
       </ng-container>
       <ng-template #recipesTemplate>
         <ng-container *ngFor="let recipe of recipes">
-          <div class="card hover my-3">
+          <div class="card hover my-3" (click)="viewRecipe(recipe.id)">
             <div class="card-body text-truncate">
               <h5 class="card-title">{{ recipe.name }}</h5>
               <span class="fst-italic">{{ recipe.instructions }}</span>

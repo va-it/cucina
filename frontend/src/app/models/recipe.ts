@@ -6,7 +6,7 @@ export class Recipe {
   public instructions: string | undefined;
   public ingredients: Ingredient[] | undefined;
 
-  constructor(source: Partial<Recipe>) {
+  constructor(source: Partial<Recipe> | null) {
     Object.assign(this, source);
   }
 }

@@ -3,6 +3,7 @@ import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Modal } from 'bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -16,7 +17,10 @@ export class RecipesComponent implements OnInit, AfterViewInit {
   private modal: Modal | undefined;
   @ViewChild('addRecipeModal') addRecipeModal: ElementRef | undefined;
 
-  constructor(private recipesService: RecipesService) {
+  constructor(
+    private recipesService: RecipesService,
+    private router: Router
+  ) {
   }
 
   public ngOnInit(): void {
@@ -24,7 +28,7 @@ export class RecipesComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.modal = new Modal(this.addRecipeModal?.nativeElement, { backdrop: true });
+    this.modal = new Modal(this.addRecipeModal?.nativeElement, {backdrop: true});
   }
 
   public openModal(): void {
@@ -44,12 +48,21 @@ export class RecipesComponent implements OnInit, AfterViewInit {
     this.getAllRecipes();
   }
 
+  public viewRecipe(id: number | undefined): void {
+    if (id) {
+      this.router.navigate([ `recipes/${id}` ]).then(() => {
+      }, (reason) => {
+        console.error(reason)
+      });
+    }
+  }
+
   private getAllRecipes(): void {
     this.recipes = [];
     this.recipesService.getAllRecipes().subscribe({
       next: (response: HttpResponse<Recipe[]>) => {
         if (response.ok) {
-          response.body?.map((recipe: Recipe) => {
+          response.body?.forEach((recipe: Recipe) => {
             this.recipes.push(new Recipe(recipe));
           });
         }

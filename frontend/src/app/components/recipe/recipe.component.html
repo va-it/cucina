@@ -1,0 +1,26 @@
+<ng-container *ngIf="loading; else recipeTemplate">
+  Loading...
+</ng-container>
+
+<ng-template #recipeTemplate>
+  <div class="card rounded border shadow-sm my-4">
+    <div class="card-body">
+      <div class="row justify-content-between d-flex align-items-center">
+        <div class="col">
+          <h1 class="card-title">{{ recipe.name }}</h1>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" (click)="edit()">
+            <i class="bi-pencil me-2"></i> Edit
+          </button>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-danger" (click)="delete()">
+            <i class="bi-trash me-2"></i> Delete
+          </button>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+</ng-template>
