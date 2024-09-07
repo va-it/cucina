@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { apiUrl } from '../../config';
 import { Recipe } from 'models/recipe';
@@ -24,5 +24,10 @@ export class RecipesService {
 
   public getAllRecipes(): Observable<HttpResponse<Recipe[]>> {
     return this.httpClient.get<HttpResponse<Recipe[]>>(`${apiUrl}/recipes`);
+  }
+
+  public saveRecipe(recipe: Recipe): Observable<Object> {
+    const requestHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.httpClient.post(`${apiUrl}/recipes`, JSON.stringify(recipe), { headers: requestHeaders });
   }
 }

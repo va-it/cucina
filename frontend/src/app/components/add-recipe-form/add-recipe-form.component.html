@@ -38,11 +38,11 @@
     </button>
     <div class="mb-3">
       <label for="instructions" class="form-label">Instructions</label>
-      <textarea rows="3" class="form-control" id="instructions"></textarea>
+      <textarea rows="3" class="form-control" id="instructions" formControlName="instructions"></textarea>
     </div>
     <div class="row justify-content-start">
       <div class="col-auto">
-        <button class="btn btn-success">
+        <button class="btn btn-success" (click)="save()">
           <i class="bi-floppy me-2"></i> Save
         </button>
       </div>

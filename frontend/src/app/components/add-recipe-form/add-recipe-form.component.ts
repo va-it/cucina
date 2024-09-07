@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RecipesService } from 'services/recipes/recipes.service';
+import { Recipe } from 'models/recipe';
+import { Ingredient } from 'models/ingredient';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-recipe-form',
@@ -9,16 +13,25 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 export class AddRecipeFormComponent implements OnInit {
 
   public recipeFormGroup: FormGroup | undefined;
+  private recipeToSave!: Recipe;
+  @Output() saved: EventEmitter<void> = new EventEmitter<void>();
 
   get name(): AbstractControl | null | undefined {
     return this.recipeFormGroup?.get('name');
+  }
+
+  get instructions(): AbstractControl | null | undefined {
+    return this.recipeFormGroup?.get('instructions');
   }
 
   get ingredients(): FormArray {
     return this.recipeFormGroup?.get('ingredients') as FormArray;
   }
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private recipesService: RecipesService
+  ) {
   }
 
   public ngOnInit(): void {
@@ -31,6 +44,17 @@ export class AddRecipeFormComponent implements OnInit {
 
   public removeIngredient(index: number): void {
     this.ingredients.controls.splice(index, 1);
+  }
+
+  public save(): void {
+    this.getValuesFromControls();
+    this.recipesService.saveRecipe(this.recipeToSave).subscribe({
+      next: (response: Object) => {
+        console.log(response);
+      }, error: (response: HttpErrorResponse) => {
+        console.error(response);
+      }
+    });
   }
 
   private initialiseFormGroup(): void {
@@ -48,5 +72,22 @@ export class AddRecipeFormComponent implements OnInit {
       ingredientName: [ null ],
       ingredientQuantity: [ null ]
     })
+  }
+
+  private getValuesFromControls(): void {
+    let ingredients: Ingredient[] = [];
+    this.ingredients.controls.forEach(group => {
+      let ingredient = new Ingredient({});
+      ingredient.name = group.get('ingredientName')?.value;
+      ingredient.quantity = group.get('ingredientQuantity')?.value;
+      ingredients.push(ingredient);
+    });
+    this.recipeToSave = new Recipe(
+      {
+        name: this.name?.value,
+        instructions: this.instructions?.value,
+        ingredients: ingredients
+      }
+    )
   }
 }

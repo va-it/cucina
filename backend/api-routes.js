@@ -1,11 +1,15 @@
 let express = require('express');
 let router = express.Router();
 let constants = require('./constants');
+let recipes = [];
+
+router.use(express.json());
 
 router.use((request, response, next) => {
     response.setHeader('Access-Control-Allow-Origin', `http://${constants.localHost}:${constants.frontendPort}`);
+    response.setHeader('Access-Control-Allow-Headers', `content-type`);
     next();
-})
+});
 
 router.get('', function (request, response) {
     response.send('API');
@@ -26,6 +30,10 @@ router.get('/recipes', function (request, response) {
             },
         ]
     });
+});
+
+router.post('/recipes', function (request, response) {
+    console.log(request.body);
 });
 
 module.exports = router;
