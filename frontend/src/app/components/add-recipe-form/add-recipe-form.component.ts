@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
@@ -51,6 +51,7 @@ export class AddRecipeFormComponent implements OnInit {
     this.recipesService.saveRecipe(this.recipeToSave).subscribe({
       next: (response: HttpResponse<Recipe>) => {
         if (response.ok) {
+          this.initialiseFormGroup();
           this.saved.emit();
         }
       }, error: (response: HttpErrorResponse) => {
