@@ -10,7 +10,7 @@
         </div>
       </div>
       <input type="text" class="form-control" id="name" formControlName="name"
-             [ngClass]="{'border-danger' : name?.touched && name?.errors?.['required']}">
+             [ngClass]="{'border-danger': name?.touched && name?.errors?.['required']}">
     </div>
     <div formArrayName="ingredients">
       <ng-container *ngFor="let control of ingredients.controls; let i=index">
@@ -42,7 +42,7 @@
     </div>
     <div class="row justify-content-start">
       <div class="col-auto">
-        <button class="btn btn-success" (click)="save()">
+        <button class="btn btn-success" [ngClass]="{'disabled': !recipeFormGroup.valid}" (click)="save()">
           <i class="bi-floppy me-2"></i> Save
         </button>
       </div>
