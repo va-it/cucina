@@ -4,6 +4,7 @@ import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
 import { Ingredient } from 'models/ingredient';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-form',
@@ -13,11 +14,16 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 export class RecipeFormComponent implements OnInit {
 
   public recipeFormGroup: FormGroup | undefined;
+  private observable!: Observable<HttpResponse<Recipe>>;
   @Input() recipe!: Recipe;
   @Output() saved: EventEmitter<void> = new EventEmitter<void>();
 
   get name(): AbstractControl | null | undefined {
     return this.recipeFormGroup?.get('name');
+  }
+
+  get servings(): AbstractControl | null | undefined {
+    return this.recipeFormGroup?.get('servings');
   }
 
   get instructions(): AbstractControl | null | undefined {
@@ -40,15 +46,22 @@ export class RecipeFormComponent implements OnInit {
 
   public addIngredient(): void {
     this.ingredients.push(this.addIngredientControls());
+    this.recipeFormGroup?.markAsDirty();
   }
 
   public removeIngredient(index: number): void {
     this.ingredients.controls.splice(index, 1);
+    this.recipeFormGroup?.markAsDirty();
   }
 
   public save(): void {
     this.getValuesFromControls();
-    this.recipesService.saveRecipe(this.recipe).subscribe({
+    if (this.recipe.id) {
+      this.observable = this.recipesService.editRecipe(this.recipe);
+    } else {
+      this.observable = this.recipesService.addRecipe(this.recipe);
+    }
+    this.observable.subscribe({
       next: (response: HttpResponse<Recipe>) => {
         if (response.ok) {
           this.initialiseFormGroup();
@@ -60,9 +73,14 @@ export class RecipeFormComponent implements OnInit {
     });
   }
 
+  public undoChanges(): void {
+    this.initialiseFormGroup();
+  }
+
   private initialiseFormGroup(): void {
     this.recipeFormGroup = this.formBuilder.group({
       name: [ this.recipe ? this.recipe.name : null, Validators.required ],
+      servings: [ this.recipe ? this.recipe.servings : null, Validators.pattern('[0-9]*') ],
       ingredients: this.formBuilder.array([]),
       instructions: [ this.recipe ? this.recipe.instructions : null ]
     });

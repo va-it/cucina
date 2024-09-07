@@ -34,14 +34,33 @@ router.get('/recipes/:id', function (request, response) {
 
 });
 
+router.put('/recipes/:id', function (request, response) {
+    if (request.body) {
+        let recipeIndex = recipes.findIndex(recipe => recipe.id === +request.params.id);
+        if (recipeIndex !== -1) {
+            recipes.at(recipeIndex).name = request.body['name'];
+            recipes.at(recipeIndex).servings = request.body['servings'];
+            recipes.at(recipeIndex).ingredients = request.body['ingredients'];
+            recipes.at(recipeIndex).instructions = request.body['instructions'];
+            response.send({
+                "ok": true,
+                "message": "Recipe updated",
+                "body": recipes.at(recipeIndex)
+            });
+        } else {
+            response.sendStatus(404);
+        }
+    }
+});
+
 router.post('/recipes', function (request, response) {
     if (request.body) {
         let recipe = {
             "id": recipes.length + 1,
             "name": request.body['name'],
             "servings": request.body['servings'],
-            "instructions": request.body['instructions'],
-            "ingredients": request.body['ingredients']
+            "ingredients": request.body['ingredients'],
+            "instructions": request.body['instructions']
         }
         recipes.push(recipe);
         response.send({

@@ -6,11 +6,24 @@
           <label for="name" class="form-label">Name *</label>
         </div>
         <div class="col-auto">
-          <div *ngIf="name?.touched && name?.errors?.['required']" class="text-danger">Name is required</div>
+          <div *ngIf="name?.dirty && name?.errors?.['required']" class="text-danger">Name is required</div>
         </div>
       </div>
       <input type="text" class="form-control" id="name" formControlName="name"
-             [ngClass]="{'border-danger': name?.touched && name?.errors?.['required']}">
+             [ngClass]="{'border-danger': name?.dirty && name?.errors?.['required']}">
+    </div>
+    <div class="mb-3">
+      <div class="row justify-content-between">
+        <div class="col">
+          <label for="servings" class="form-label">Servings</label>
+        </div>
+        <div class="col-auto">
+          <div *ngIf="servings?.dirty && servings?.errors?.['pattern']" class="text-danger">Only numbers are allowed
+          </div>
+        </div>
+      </div>
+      <input type="text" class="form-control" id="servings" formControlName="servings"
+             [ngClass]="{'border-danger': servings?.dirty && servings?.errors?.['pattern']}">
     </div>
     <div formArrayName="ingredients">
       <ng-container *ngFor="let control of ingredients.controls; let i=index">
@@ -45,6 +58,11 @@
         <button class="btn btn-success" [ngClass]="{'disabled': !recipeFormGroup.valid}" (click)="save()">
           <i class="bi-floppy me-2"></i> Save
         </button>
+        <ng-container *ngIf="recipe && recipe.id">
+          <button class="btn btn-secondary ms-3" [ngClass]="{'disabled': recipeFormGroup.pristine}" (click)="undoChanges()">
+            <i class="bi-arrow-counterclockwise me-2"></i> Undo changes
+          </button>
+        </ng-container>
       </div>
     </div>
   </form>
