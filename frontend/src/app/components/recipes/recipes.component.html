@@ -1,4 +1,4 @@
-<div class="card rounded border shadow-sm my-4">
+<div class="card shadow-sm my-4">
   <div class="card-body">
     <div class="row justify-content-between d-flex align-items-center">
       <div class="col">
@@ -16,9 +16,16 @@
         <p>Loading...</p>
       </ng-container>
       <ng-template #recipesTemplate>
+        <ng-container *ngIf="!recipes.length">
+          <div class="text-center">
+            <i class="bi-book fs-1 d-block"></i>
+            <h5>You don't have any recipes yet</h5>
+            <p class="text-muted">Add some and they will appear here</p>
+          </div>
+        </ng-container>
         <ng-container *ngFor="let recipe of recipes">
-          <div class="card hover my-3" (click)="viewRecipe(recipe.id)">
-            <div class="card-body text-truncate">
+          <div class="card recipe-hover my-3" (click)="viewRecipe(recipe.id)">
+            <div class="card-body">
               <h5 class="card-title">{{ recipe.name }}</h5>
               <span class="fst-italic">{{ recipe.instructions }}</span>
             </div>

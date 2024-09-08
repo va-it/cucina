@@ -2,7 +2,8 @@
   max-height: 40rem;
 }
 
-.card.hover:hover {
+.card.recipe-hover:hover {
   cursor: pointer;
-  background: var(--bs-tertiary-bg);
+  border-color: var(--bs-warning);
+  background-color: var(--bs-warning-bg-subtle);
 }
