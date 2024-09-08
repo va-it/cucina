@@ -28,7 +28,7 @@
     <div formArrayName="ingredients">
       <ng-container *ngFor="let control of ingredients.controls; let i=index">
         <div [formGroupName]="i" class="row justify-content-between mb-3 d-flex align-items-end">
-          <div class="col-8">
+          <div class="col-6 col-lg-8">
             <label for="ingredientName{{i}}" class="form-label">Ingredient</label>
             <input type="text" id="ingredientName{{i}}" class="form-control" formControlName="ingredientName">
           </div>
@@ -54,16 +54,18 @@
       <textarea rows="3" class="form-control" id="instructions" formControlName="instructions"></textarea>
     </div>
     <div class="row justify-content-start">
-      <div class="col-auto">
-        <button class="btn btn-success" [ngClass]="{'disabled': !recipeFormGroup.valid}" (click)="save()">
+      <div class="col-12 col-lg-auto">
+        <button class="btn btn-success w-100" [ngClass]="{'disabled': !recipeFormGroup.valid}" (click)="save()">
           <i class="bi-floppy me-2"></i> Save
         </button>
-        <ng-container *ngIf="recipe && recipe.id">
-          <button class="btn btn-secondary ms-3" [ngClass]="{'disabled': recipeFormGroup.pristine}" (click)="undoChanges()">
+      </div>
+      <ng-container *ngIf="recipe && recipe.id">
+        <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+          <button class="btn btn-secondary w-100" [ngClass]="{'disabled': recipeFormGroup.pristine}" (click)="undoChanges()">
             <i class="bi-arrow-counterclockwise me-2"></i> Undo changes
           </button>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
   </form>
 </ng-container>
