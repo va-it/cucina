@@ -6,7 +6,7 @@
           <label for="name" class="form-label">Name *</label>
         </div>
         <div class="col-auto">
-          <div *ngIf="name?.dirty && name?.errors?.['required']" class="text-danger">Name is required</div>
+          <div *ngIf="name?.dirty && name?.errors?.['required']" class="form-text text-danger">Name is required</div>
         </div>
       </div>
       <input type="text" class="form-control" id="name" formControlName="name"
@@ -18,7 +18,7 @@
           <label for="servings" class="form-label">Servings</label>
         </div>
         <div class="col-auto">
-          <div *ngIf="servings?.dirty && servings?.errors?.['pattern']" class="text-danger">Only numbers are allowed
+          <div *ngIf="servings?.dirty && servings?.errors?.['pattern']" class="form-text text-danger">Only numbers are allowed
           </div>
         </div>
       </div>

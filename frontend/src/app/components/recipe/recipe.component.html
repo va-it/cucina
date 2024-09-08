@@ -21,21 +21,30 @@
         </div>
       </div>
       <hr>
-      <h5>Ingredients</h5>
-      <ng-container *ngIf="recipe.ingredients?.length; else notAvailableTemplate">
-        <ul class="list-group list-group-flush">
-          <ng-container *ngFor="let ingredient of recipe.ingredients">
-            <li class="list-group-item px-0">
-              {{ ingredient.name }}<span class="fst-italic d-inline-block ms-2">{{ ingredient.quantity }}</span>
-            </li>
-          </ng-container>
-        </ul>
-        <hr>
-      </ng-container>
-      <h5>Instructions</h5>
-      <ng-container *ngIf="recipe.instructions; else notAvailableTemplate">
-        {{ recipe.instructions }}
-      </ng-container>
+      <div class="border rounded p-3 mb-3">
+        <h5>Servings</h5>
+        <ng-container *ngIf="recipe.servings; else notAvailableTemplate">
+          {{ recipe.servings }}
+        </ng-container>
+      </div>
+      <div class="border rounded p-3 mb-3">
+        <h5>Ingredients</h5>
+        <ng-container *ngIf="recipe.ingredients?.length; else notAvailableTemplate">
+          <ul class="list-group list-group-flush">
+            <ng-container *ngFor="let ingredient of recipe.ingredients">
+              <li class="list-group-item px-0">
+                {{ ingredient.name }}<span class="fst-italic d-inline-block ms-2">{{ ingredient.quantity }}</span>
+              </li>
+            </ng-container>
+          </ul>
+        </ng-container>
+      </div>
+      <div class="border rounded p-3">
+        <h5>Instructions</h5>
+        <ng-container *ngIf="recipe.instructions; else notAvailableTemplate">
+          {{ recipe.instructions }}
+        </ng-container>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -53,7 +62,7 @@
       </div>
       <div class="modal-body">
         <ng-container *ngIf="recipe">
-          <app-recipe-form [recipe]="recipe" (saved)="getRecipe()"></app-recipe-form>
+          <app-recipe-form [recipe]="recipe" (saved)="reloadRecipe()"></app-recipe-form>
         </ng-container>
       </div>
     </div>

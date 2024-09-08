@@ -26,12 +26,15 @@ router.get('/recipes', function (request, response) {
 
 router.get('/recipes/:id', function (request, response) {
     let recipe = recipes.find(recipe => recipe.id === +request.params.id);
-    response.send({
-        "ok": true,
-        "message": 'Recipe retrieved',
-        "body": recipe
-    });
-
+    if (recipe) {
+        response.send({
+            "ok": true,
+            "message": 'Recipe retrieved',
+            "body": recipe
+        });
+    } else {
+        response.sendStatus(404);
+    }
 });
 
 router.put('/recipes/:id', function (request, response) {
@@ -50,6 +53,20 @@ router.put('/recipes/:id', function (request, response) {
         } else {
             response.sendStatus(404);
         }
+    }
+});
+
+router.delete('/recipes/:id', function (request, response) {
+    let recipeIndex = recipes.findIndex(recipe => recipe.id === +request.params.id);
+    if (recipeIndex !== -1) {
+        recipes.splice(recipeIndex, 1);
+        response.send({
+            "ok": true,
+            "message": "Recipe deleted",
+            "body": null
+        });
+    } else {
+        response.sendStatus(404);
     }
 });
 

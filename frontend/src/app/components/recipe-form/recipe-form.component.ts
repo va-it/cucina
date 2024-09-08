@@ -116,7 +116,9 @@ export class RecipeFormComponent implements OnInit {
     });
     this.recipe = new Recipe(
       {
+        id: this.recipe ? this.recipe.id : undefined,
         name: this.name?.value,
+        servings: this.servings?.value,
         instructions: this.instructions?.value,
         ingredients: ingredients
       }

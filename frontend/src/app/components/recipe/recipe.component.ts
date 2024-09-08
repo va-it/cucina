@@ -54,10 +54,7 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.recipesService.deleteRecipe(this.id).subscribe({
       next: (response: HttpResponse<void>) => {
         if (response.ok) {
-          this.router.navigate([ `recipes` ]).then(() => {
-          }, (reason) => {
-            console.error(reason)
-          });
+          this.goToRecipes();
         }
       }, error: (response: HttpErrorResponse) => {
         console.error(response);
@@ -77,6 +74,11 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  public reloadRecipe(): void {
+    this.closeModal();
+    this.getRecipe();
+  }
+
   public getRecipe(): void {
     this.loading = true;
     this.recipesService.getRecipe(this.id).subscribe({
@@ -86,6 +88,7 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }, error: (response: HttpErrorResponse) => {
         console.error(response);
+        this.goToRecipes();
         this.loading = false;
       }, complete: () => {
         this.loading = false;
@@ -93,4 +96,10 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  private goToRecipes(): void {
+    this.router.navigate([ `recipes` ]).then(() => {
+    }, (reason) => {
+      console.error(reason)
+    });
+  }
 }
