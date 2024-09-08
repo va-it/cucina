@@ -3,8 +3,10 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
 import { Ingredient } from 'models/ingredient';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ApiResponseService } from 'services/api-response/api-response.service';
+import { ApiResponse } from 'models/api-response';
 
 @Component({
   selector: 'app-recipe-form',
@@ -14,7 +16,7 @@ import { Observable } from 'rxjs';
 export class RecipeFormComponent implements OnInit {
 
   public recipeFormGroup: FormGroup | undefined;
-  private observable!: Observable<HttpResponse<Recipe>>;
+  private observable!: Observable<ApiResponse<Recipe>>;
   @Input() recipe!: Recipe;
   @Output() saved: EventEmitter<void> = new EventEmitter<void>();
 
@@ -36,7 +38,8 @@ export class RecipeFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private recipesService: RecipesService
+    private recipesService: RecipesService,
+    private apiResponseService: ApiResponseService
   ) {
   }
 
@@ -62,10 +65,14 @@ export class RecipeFormComponent implements OnInit {
       this.observable = this.recipesService.addRecipe(this.recipe);
     }
     this.observable.subscribe({
-      next: (response: HttpResponse<Recipe>) => {
+      next: (response: ApiResponse<Recipe>) => {
         if (response.ok) {
-          this.initialiseFormGroup();
+          this.apiResponseService.displayMessage(response)
           this.saved.emit();
+          if (!this.recipe.id) {
+            this.recipe = new Recipe({});
+          }
+          this.initialiseFormGroup();
         }
       }, error: (response: HttpErrorResponse) => {
         console.error(response);

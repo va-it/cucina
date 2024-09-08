@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { apiUrl } from '../../config';
 import { Recipe } from 'models/recipe';
+import { ApiResponse } from 'models/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -18,29 +19,29 @@ export class RecipesService {
   ) {
   }
 
-  public getRecipe(id: number): Observable<HttpResponse<Recipe>> {
-    return this.httpClient.get<HttpResponse<Recipe>>(`${apiUrl}/recipes/${id}`);
+  public getRecipe(id: number): Observable<ApiResponse<Recipe>> {
+    return this.httpClient.get<ApiResponse<Recipe>>(`${apiUrl}/recipes/${id}`);
   }
 
-  public getAllRecipes(): Observable<HttpResponse<Recipe[]>> {
-    return this.httpClient.get<HttpResponse<Recipe[]>>(`${apiUrl}/recipes`);
+  public getAllRecipes(): Observable<ApiResponse<Recipe[]>> {
+    return this.httpClient.get<ApiResponse<Recipe[]>>(`${apiUrl}/recipes`);
   }
 
-  public deleteRecipe(id: number): Observable<HttpResponse<void>> {
-    return this.httpClient.delete<HttpResponse<void>>(`${apiUrl}/recipes/${id}`);
+  public deleteRecipe(id: number): Observable<ApiResponse<void>> {
+    return this.httpClient.delete<ApiResponse<void>>(`${apiUrl}/recipes/${id}`);
   }
 
-  public deleteAllRecipes(): Observable<HttpResponse<void>> {
-    return this.httpClient.delete<HttpResponse<void>>(`${apiUrl}/recipes`);
+  public deleteAllRecipes(): Observable<ApiResponse<void>> {
+    return this.httpClient.delete<ApiResponse<void>>(`${apiUrl}/recipes`);
   }
 
-  public addRecipe(recipe: Recipe): Observable<HttpResponse<Recipe>> {
+  public addRecipe(recipe: Recipe): Observable<ApiResponse<Recipe>> {
     const requestHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.httpClient.post<HttpResponse<Recipe>>(`${apiUrl}/recipes`, JSON.stringify(recipe), { headers: requestHeaders });
+    return this.httpClient.post<ApiResponse<Recipe>>(`${apiUrl}/recipes`, JSON.stringify(recipe), { headers: requestHeaders });
   }
 
-  public editRecipe(recipe: Recipe): Observable<HttpResponse<Recipe>> {
+  public editRecipe(recipe: Recipe): Observable<ApiResponse<Recipe>> {
     const requestHeaders = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.httpClient.put<HttpResponse<Recipe>>(`${apiUrl}/recipes/${recipe.id}`, JSON.stringify(recipe), { headers: requestHeaders });
+    return this.httpClient.put<ApiResponse<Recipe>>(`${apiUrl}/recipes/${recipe.id}`, JSON.stringify(recipe), { headers: requestHeaders });
   }
 }

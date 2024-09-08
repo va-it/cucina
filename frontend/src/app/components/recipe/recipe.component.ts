@@ -2,9 +2,11 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { RecipesService } from 'services/recipes/recipes.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Recipe } from 'models/recipe';
 import { Modal } from 'bootstrap';
+import { ApiResponseService } from 'services/api-response/api-response.service';
+import { ApiResponse } from 'models/api-response';
 
 @Component({
   selector: 'app-recipe',
@@ -22,6 +24,7 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private recipesService: RecipesService,
+    private apiResponseService: ApiResponseService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
@@ -52,8 +55,9 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public delete(): void {
     this.recipesService.deleteRecipe(this.id).subscribe({
-      next: (response: HttpResponse<void>) => {
+      next: (response: ApiResponse<void>) => {
         if (response.ok) {
+          this.apiResponseService.displayMessage(response);
           this.goToRecipes();
         }
       }, error: (response: HttpErrorResponse) => {
@@ -82,7 +86,7 @@ export class RecipeComponent implements OnInit, OnDestroy, AfterViewInit {
   public getRecipe(): void {
     this.loading = true;
     this.recipesService.getRecipe(this.id).subscribe({
-      next: (response: HttpResponse<Recipe>) => {
+      next: (response: ApiResponse<Recipe>) => {
         if (response.ok) {
           this.recipe = new Recipe(response.body);
         }

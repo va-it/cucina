@@ -11,6 +11,7 @@ import { RecipeFormComponent } from 'components/recipe-form/recipe-form.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { SettingsComponent } from 'components/settings/settings.component';
 import { RecipeComponent } from 'components/recipe/recipe.component';
+import { ApiResponseComponent } from 'components/api-response/api-response.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { RecipeComponent } from 'components/recipe/recipe.component';
     RecipeComponent,
     RecipeFormComponent,
     SettingsComponent,
+    ApiResponseComponent
   ],
   imports: [
     BrowserModule,

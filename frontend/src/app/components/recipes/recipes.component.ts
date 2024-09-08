@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { RecipesService } from 'services/recipes/recipes.service';
 import { Recipe } from 'models/recipe';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Modal } from 'bootstrap';
 import { Router } from '@angular/router';
+import { ApiResponse } from 'models/api-response';
 
 @Component({
   selector: 'app-recipes',
@@ -60,7 +61,7 @@ export class RecipesComponent implements OnInit, AfterViewInit {
   private getAllRecipes(): void {
     this.recipes = [];
     this.recipesService.getAllRecipes().subscribe({
-      next: (response: HttpResponse<Recipe[]>) => {
+      next: (response: ApiResponse<Recipe[]>) => {
         if (response.ok) {
           response.body?.forEach((recipe: Recipe) => {
             this.recipes.push(new Recipe(recipe));
