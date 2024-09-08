@@ -24,6 +24,33 @@ router.get('/recipes', function (request, response) {
     });
 });
 
+router.post('/recipes', function (request, response) {
+    if (request.body) {
+        let recipe = {
+            "id": recipes.length + 1,
+            "name": request.body['name'],
+            "servings": request.body['servings'],
+            "ingredients": request.body['ingredients'],
+            "instructions": request.body['instructions']
+        }
+        recipes.push(recipe);
+        response.send({
+            "ok": true,
+            "message": "Recipe created",
+            "body": recipe
+        });
+    }
+});
+
+router.delete('/recipes', function (request, response) {
+    recipes = [];
+    response.send({
+        "ok": true,
+        "message": "Recipes deleted",
+        "body": null
+    });
+});
+
 router.get('/recipes/:id', function (request, response) {
     let recipe = recipes.find(recipe => recipe.id === +request.params.id);
     if (recipe) {
@@ -68,33 +95,6 @@ router.delete('/recipes/:id', function (request, response) {
     } else {
         response.sendStatus(404);
     }
-});
-
-router.post('/recipes', function (request, response) {
-    if (request.body) {
-        let recipe = {
-            "id": recipes.length + 1,
-            "name": request.body['name'],
-            "servings": request.body['servings'],
-            "ingredients": request.body['ingredients'],
-            "instructions": request.body['instructions']
-        }
-        recipes.push(recipe);
-        response.send({
-            "ok": true,
-            "message": "Recipe created",
-            "body": recipe
-        });
-    }
-});
-
-router.delete('/recipes', function (request, response) {
-    recipes = [];
-    response.send({
-        "ok": true,
-        "message": "Recipes deleted",
-        "body": null
-    });
 });
 
 module.exports = router;
