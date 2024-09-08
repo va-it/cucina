@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipesComponent } from './recipes.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RecipeFormComponent } from 'components/recipe-form/recipe-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('RecipesComponent', () => {
   let component: RecipesComponent;
@@ -8,10 +11,11 @@ describe('RecipesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RecipesComponent]
+      imports: [ HttpClientTestingModule, ReactiveFormsModule ],
+      declarations: [ RecipesComponent, RecipeFormComponent ]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(RecipesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

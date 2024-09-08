@@ -3,7 +3,7 @@
     <ng-container *ngFor="let message of messages; let index = index">
       <div class="toast fade border-0" role="alert" aria-live="assertive" aria-atomic="true" #toasts>
         <div class="toast-header" [ngClass]="message?.ok ? 'text-bg-success' : 'text-bg-danger'">
-          <i [ngClass]="{'bi-check' : message?.ok, 'bi-cross' : !message?.ok }" class="me-2"></i>
+          <i [ngClass]="{'bi-check-circle' : message?.ok, 'bi-x-circle' : !message?.ok }" class="me-2"></i>
           <strong class="me-auto">{{ message.ok ? 'Success' : 'Error' }}</strong>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"
                   (click)="removeMessage(index)">

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RecipeComponent } from './recipe.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ActivatedRoute } from '@angular/router';
 
 describe('RecipeComponent', () => {
   let component: RecipeComponent;
@@ -8,10 +10,14 @@ describe('RecipeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RecipeComponent]
+      imports: [ HttpClientTestingModule ],
+      declarations: [ RecipeComponent ],
+      providers: [
+        { provide: ActivatedRoute, useValue: { params: { subscribe: () => { } } } }
+      ]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(RecipeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

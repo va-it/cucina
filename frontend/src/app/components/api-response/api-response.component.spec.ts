@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ApiResponseComponent } from './api-response.component';
 
-describe('ApiMessageComponent', () => {
+describe('ApiResponseComponent', () => {
   let component: ApiResponseComponent;
   let fixture: ComponentFixture<ApiResponseComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApiResponseComponent]
+      declarations: [ApiResponseComponent]
     })
     .compileComponents();
 
