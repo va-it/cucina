@@ -13,15 +13,14 @@ router.use((request, response, next) => {
 });
 
 router.get('', function (request, response) {
-
-    response.write(`Welcome to Cucina API \n\n`);
-    response.write(`Available routes \n`);
+    response.write(`Welcome to Cucina API\n\n`);
+    response.write(`Available routes \n\n`);
     let routesLayers = router.stack.filter(r => r.route !== undefined);
     routesLayers.forEach(routeLayer => {
-        response.write(Object.keys(routeLayer.route.methods).toString().toUpperCase());
-        response.write(`        `);
-        response.write(routeLayer.route.path);
-        response.write(`\n`);
+        if (routeLayer.route.path) {
+            response.write(`${Object.keys(routeLayer.route.methods).toString().toUpperCase()}\t`);
+            response.write(`${routeLayer.route.path}\n`);
+        }
     });
     response.end();
 });
