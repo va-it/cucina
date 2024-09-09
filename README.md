@@ -1,4 +1,5 @@
 # Cucina
 A simple web application for a recipe book.
+The app was built with Angular, and it runs on Node.js
 
-To get started simply run `npm run start`
+To start simply run `npm run start` 
