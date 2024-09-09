@@ -13,7 +13,17 @@ router.use((request, response, next) => {
 });
 
 router.get('', function (request, response) {
-    response.send('API');
+
+    response.write(`Welcome to Cucina API \n\n`);
+    response.write(`Available routes \n`);
+    let routesLayers = router.stack.filter(r => r.route !== undefined);
+    routesLayers.forEach(routeLayer => {
+        response.write(Object.keys(routeLayer.route.methods).toString().toUpperCase());
+        response.write(`        `);
+        response.write(routeLayer.route.path);
+        response.write(`\n`);
+    });
+    response.end();
 });
 
 router.get('/recipes', function (request, response) {
